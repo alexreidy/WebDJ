@@ -86,3 +86,11 @@ func replaceSpacesForURL(str: String) -> String {
     
     return nstr
 }
+
+func escapeStringForURL(str: NSString) -> String {
+    return CFURLCreateStringByAddingPercentEscapes(
+        kCFAllocatorDefault, str, nil,
+        ":/?#[]@!$&'()*+,;=" as NSString,
+        kCFStringEncodingASCII)
+}
+

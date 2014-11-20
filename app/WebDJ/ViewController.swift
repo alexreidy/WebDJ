@@ -30,19 +30,19 @@ class ViewController: UIViewController {
         }
     }
     
-    func run() { ////////////// nnnneeeeeedddd to use POST because some song names are retaaaaaaded
+    func run() {
         running = true
         
         while (running) {
             sleep(1)
             println("Waiting for command")
             
-            if var message = get("http://192.168.1.5/WebDJ/backend/app.php?name=\(ID)&action=gm") {
+            if var message = get("http://127.0.0.1/WebDJ/backend/app.php?name=\(ID)&action=gm") {
                 if message == "" { continue }
                 
                 if message == "SEND_SONG_LIST" {
                     for song in songs {
-                        get("http://192.168.1.5/WebDJ/backend/app.php?name=\(WEB_ID)&action=sm&message=_____SONG_____\(replaceSpacesForURL(song.title!!))")
+                        get("http://127.0.0.1/WebDJ/backend/app.php?name=\(WEB_ID)&action=sm&message=_____SONG_____\(escapeStringForURL(song.title!!))")
                     }
                     
                     continue
