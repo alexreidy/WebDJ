@@ -58,7 +58,7 @@ class MessageCenter {
     }
 
     // If $wait, function blocks and polls database until messages are found
-    function findMessagesFor($recipient, $wait) {
+    function findMessagesFor($recipient, $wait, $one = false) {
         $messages = [];
         $polls = 0;
 
@@ -72,7 +72,21 @@ class MessageCenter {
                 ORDER BY ts;
             ");
 
-            if ($result) $rows = $result->fetch_all(MYSQLI_ASSOC);
+            $rows = [];
+
+            if ($result) {
+                if ($one) {
+                    $row = $result->fetch_assoc();
+                    $this->db->query("
+                        UPDATE messages SET received = 1
+                        WHERE id = {$row['id']};
+                    ");
+                    return $row['message'];
+                }
+                $rows = $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                return $messages;
+            }
 
             if (count($rows) > 0) {
                 foreach ($rows as $row) {

@@ -30,26 +30,33 @@ class ViewController: UIViewController {
         }
     }
     
-    func run() {
+    func run() { ////////////// nnnneeeeeedddd to use POST because some song names are retaaaaaaded
         running = true
         
         while (running) {
             sleep(1)
             println("Waiting for command")
             
-            if let response = get("http://192.168.1.5/WebDJ/backend/app.php?name=\(ID)&action=gm") {
-                if response == "" { continue }
+            if var message = get("http://192.168.1.5/WebDJ/backend/app.php?name=\(ID)&action=gm") {
+                if message == "" { continue }
                 
-                if let songQuery: String = extractLinesFrom(response).last {
-                    println("Looking for \(songQuery)")
+                if message == "SEND_SONG_LIST" {
                     for song in songs {
-                        let title = lowercase(song.title!!)
-                        if contains(title, lowercase(songQuery)) {
-                            player.setQueueWithItemCollection(MPMediaItemCollection(items: [song]))
-                            player.play()
-                            println("Playing \(title)")
-                            break
-                        }
+                        get("http://192.168.1.5/WebDJ/backend/app.php?name=\(WEB_ID)&action=sm&message=_____SONG_____\(replaceSpacesForURL(song.title!!))")
+                    }
+                    
+                    continue
+                }
+                
+                let songQuery = message
+                println("Looking for \(songQuery)")
+                for song in songs {
+                    let title = lowercase(song.title!!)
+                    if contains(title, lowercase(songQuery)) {
+                        player.setQueueWithItemCollection(MPMediaItemCollection(items: [song]))
+                        player.play()
+                        println("Playing \(title)")
+                        break
                     }
                 }
                 

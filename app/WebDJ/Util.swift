@@ -28,23 +28,21 @@ func contains(strA: String, strB: String) -> Bool {
     return false
 }
 
-func extractLinesFrom(str: String) -> [String] {
-    var lines: [String] = []
+func split(str: String, delim: Character) -> [String] {
+    var components: [String] = []
     var temp: String = ""
+    
     for c in str {
-        if c == "\n" {
-            lines.append(temp)
+        if c == delim {
+            components.append(temp)
             temp = ""
         } else {
             temp.append(c)
         }
     }
     
-    if lines.count == 0 {
-        lines.append(temp)
-    }
-    
-    return lines
+    components.append(temp)
+    return components
 }
 
 func get(webAddress: String) -> String? {
@@ -73,4 +71,18 @@ func getRandomString(length: Int) -> String {
 
 func runAsync(fn: () -> ()) {
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), fn)
+}
+
+func replaceSpacesForURL(str: String) -> String {
+    var components = split(str, " ")
+    var nstr = ""
+    
+    for component in components {
+        nstr.splice(component, atIndex: nstr.endIndex)
+        if component != components.last {
+            nstr.splice("%20", atIndex: nstr.endIndex)
+        }
+    }
+    
+    return nstr
 }
