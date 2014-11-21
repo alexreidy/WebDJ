@@ -11,11 +11,6 @@ import MediaPlayer
 
 class ViewController: UIViewController {
     
-    var player = MPMusicPlayerController()
-    var songs  = MPMediaQuery.songsQuery().items
-    
-    var running = false
-    
     @IBOutlet weak var idLabel: UILabel!
     
     @IBOutlet weak var pausePlayToggleSwitch: UISwitch!
@@ -28,48 +23,6 @@ class ViewController: UIViewController {
             running = false
             player.pause()
         }
-    }
-    
-    func run() {
-        running = true
-        
-        while (running) {
-            sleep(1)
-            println("Waiting for command")
-            
-            if var message = get("http://127.0.0.1/WebDJ/backend/app.php?name=\(ID)&action=gm") {
-                if message == "" { continue }
-                
-                if message == "SEND_SONG_LIST" {
-                    for song in songs {
-                        get("http://127.0.0.1/WebDJ/backend/app.php?name=\(WEB_ID)&action=sm&message=_____SONG_____\(escapeStringForURL(song.title!!))")
-                    }
-                    
-                    continue
-                }
-                
-                let songQuery = message
-                println("Looking for \(songQuery)")
-                for song in songs {
-                    let title = lowercase(song.title!!)
-                    if contains(title, lowercase(songQuery)) {
-                        player.setQueueWithItemCollection(MPMediaItemCollection(items: [song]))
-                        player.play()
-                        println("Playing \(title)")
-                        break
-                    }
-                }
-                
-            }
-            
-        }
-    }
-    
-    func begin() {
-        if self.running {return}
-        runAsync({
-            self.run()
-        })
     }
     
     override func viewDidLoad() {

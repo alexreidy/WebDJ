@@ -77,15 +77,15 @@ class MessageCenter {
             if ($result) {
                 if ($one) {
                     $row = $result->fetch_assoc();
+
                     $this->db->query("
                         UPDATE messages SET received = 1
                         WHERE id = {$row['id']};
                     ");
-                    return $row['message'];
+
+                    if ($row) return $row['message'];
                 }
                 $rows = $result->fetch_all(MYSQLI_ASSOC);
-            } else {
-                return $messages;
             }
 
             if (count($rows) > 0) {
@@ -105,6 +105,7 @@ class MessageCenter {
 
         } while ($wait && $polls < 30);
 
+        if ($one) return "";
         return $messages;
     }
 

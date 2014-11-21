@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import MediaPlayer
-
-let ID = getRandomString(7), WEB_ID = ID + "_W"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

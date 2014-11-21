@@ -15,6 +15,7 @@
 		E10943D21A19980900CB6600 /* WebDJTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10943D11A19980900CB6600 /* WebDJTests.swift */; };
 		E10943DC1A19983800CB6600 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10943DB1A19983800CB6600 /* MediaPlayer.framework */; };
 		E1A26C161A1D3B560035E9B4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A26C151A1D3B560035E9B4 /* Util.swift */; };
+		E1A26C1A1A1EA0470035E9B4 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A26C191A1EA0470035E9B4 /* Main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		E10943D11A19980900CB6600 /* WebDJTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDJTests.swift; sourceTree = "<group>"; };
 		E10943DB1A19983800CB6600 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E1A26C151A1D3B560035E9B4 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		E1A26C191A1EA0470035E9B4 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			children = (
 				E10943BB1A19980900CB6600 /* AppDelegate.swift */,
 				E10943BD1A19980900CB6600 /* ViewController.swift */,
+				E1A26C191A1EA0470035E9B4 /* Main.swift */,
 				E1A26C151A1D3B560035E9B4 /* Util.swift */,
 				E10943BF1A19980900CB6600 /* Main.storyboard */,
 				E10943C21A19980900CB6600 /* Images.xcassets */,
@@ -226,6 +229,7 @@
 			files = (
 				E10943BE1A19980900CB6600 /* ViewController.swift in Sources */,
 				E1A26C161A1D3B560035E9B4 /* Util.swift in Sources */,
+				E1A26C1A1A1EA0470035E9B4 /* Main.swift in Sources */,
 				E10943BC1A19980900CB6600 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
