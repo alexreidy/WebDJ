@@ -12,6 +12,7 @@ import MediaPlayer
 class ViewController: UIViewController {
     
     @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var nowPlayingLabel: UILabel!
     
     @IBOutlet weak var pausePlayToggleSwitch: UISwitch!
     
@@ -30,6 +31,13 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         idLabel.text = ID
+        
+        onSongChanged = {
+            dispatch_sync(dispatch_get_main_queue(), {
+                self.nowPlayingLabel.text = player.nowPlayingItem.title
+            })
+        }
+        
         begin()
     }
     

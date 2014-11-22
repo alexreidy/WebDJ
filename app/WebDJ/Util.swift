@@ -28,6 +28,21 @@ func contains(strA: String, strB: String) -> Bool {
     return false
 }
 
+// Returns true if str starts with prefix
+func startsWith(str: String, prefix: String) -> Bool {
+    if countElements(prefix) > countElements(str) {
+        return false
+    }
+    
+    for var i = 0; i < countElements(prefix); i++ {
+        if Array(str)[i] != Array(prefix)[i] {
+            return false
+        }
+    }
+    
+    return true
+}
+
 func split(str: String, delim: Character) -> [String] {
     var components: [String] = []
     var temp: String = ""

@@ -12,7 +12,7 @@ import MediaPlayer
 let ID = getRandomString(7), WEB_ID = ID + "_W"
 
 var player = MPMusicPlayerController()
-var songs  = MPMediaQuery.songsQuery().items
+var songs: [MPMediaItem] = MPMediaQuery.songsQuery().items as [MPMediaItem]
 
 var songsToPlay: [MPMediaItem] = []
 
@@ -25,19 +25,11 @@ var command: [String: String] = [
     "prev-song" : "_____PREV_____"
 ]
 
-func getSongsWithTitleContaining(str: String, songs: [MPMediaItem]) -> [MPMediaItem] {
-    var matches: [MPMediaItem] = []
-    
-    for song in songs {
-        if song.title == nil { break }
-        let title = lowercase(song.title!)
-        
-        if contains(title, lowercase(str)) {
-            matches.append(song as MPMediaItem)
-        }
-    }
-    
-    return matches
+var onSongChanged: ()->() = {}
+
+func play() {
+    player.play()
+    onSongChanged()
 }
 
 func run() {
@@ -47,27 +39,44 @@ func run() {
         sleep(1)
         println("Waiting for command")
         
-        if var message = get("http://192.168.1.5/WebDJ/backend/app.php?name=\(ID)&action=gm") {
-            println("message = " + message)
+        if var message = get("http://alexreidy.me/software/WebDJ/backend/app.php?name=\(ID)&action=gm") {
             if message == "" { continue }
             
             if message.hasPrefix(command["play"]!) {
                 if message == command["play"] {
-                    player.play()
+                    play()
                     continue
                 }
                 
-                songsToPlay = []
                 let songQuery = message.substringFromIndex(
                     message.rangeOfString(command["play"]!)!.endIndex)
                 
                 println("Looking for \(songQuery)")
-                player.setQueueWithItemCollection(MPMediaItemCollection(items:
-                    getSongsWithTitleContaining(songQuery, songs as [MPMediaItem])))
                 
-                // function -> local procedure so we can play the first match immediately.
+                songsToPlay = []
                 
-                player.play()
+                for song in songs {
+                    if var title = song.title {
+                        title = lowercase(title)
+                        
+                        if title.hasPrefix(songQuery) {
+                            if songsToPlay.count == 0 {
+                                // Play 1st match immediately
+                                player.setQueueWithItemCollection(
+                                    MPMediaItemCollection(items: [song]))
+                                play()
+                            }
+                            songsToPlay.append(song)
+                        }
+                        
+                    }
+                }
+                
+                if songsToPlay.count > 0 {
+                    player.setQueueWithItemCollection(
+                        MPMediaItemCollection(items: songsToPlay))
+                }
+                
                 continue
             }
             
@@ -77,10 +86,17 @@ func run() {
             
             if message == command["next-song"]! {
                 player.skipToNextItem()
+                if player.indexOfNowPlayingItem.predecessor() < 0 {
+                    if songsToPlay.count > 1 {
+                        player.nowPlayingItem = songsToPlay[1]
+                    }
+                }
+                play()
             }
             
             if message == command["prev-song"]! {
                 player.skipToPreviousItem()
+                play()
             }
             
         }

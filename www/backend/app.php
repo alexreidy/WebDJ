@@ -14,7 +14,7 @@ function get($key) {
 $name = get('name');
 if ( ! $name || $name == '') die();
 
-switch ($_GET['action']) {
+switch (get('action')) {
     case $GET_MESSAGE:
         echo($messageCenter->findMessagesFor($name, true, true));
         break;
