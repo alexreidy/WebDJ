@@ -1,0 +1,1 @@
+WebDJ lets you control Apple's Music app (to a very limited extent, of course) from your browser. I connect my iPhone to a Bose speaker, and it's annoying to get up and search for songs on the phone, so I decided to throw this little system together. It's functional, but there's no GUI; you have to enter commands in the URL. Pretty ghetto, I know.
